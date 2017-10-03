@@ -2,7 +2,6 @@ package com.kiwi.controller;
 
 
 import com.linecorp.bot.model.event.*;
-import com.linecorp.bot.model.event.message.TextMessageContent;
 import com.linecorp.bot.spring.boot.annotation.EventMapping;
 import com.linecorp.bot.spring.boot.annotation.LineMessageHandler;
 import lombok.extern.slf4j.Slf4j;
@@ -13,19 +12,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 public class EventController {
 
     @Autowired
-    private MessageController messageController;
-
-    @Autowired
-    private PostbackController postbackController;
+    private BeaconController beaconController;
 
     @EventMapping
     public void eventHandle(Event event) throws Exception {
 
         if (event instanceof MessageEvent) {
             final MessageEvent<?> messageEvent = (MessageEvent<?>) event;
-            if (messageEvent.getMessage() instanceof TextMessageContent) {
-                messageController.eventHandle((MessageEvent<TextMessageContent>) event);
-            }
 
         } else if (event instanceof UnfollowEvent) {
             UnfollowEvent unfollowEvent = (UnfollowEvent) event;
@@ -45,12 +38,10 @@ public class EventController {
 
         } else if (event instanceof PostbackEvent) {
             final PostbackEvent postbackEvent = (PostbackEvent) event;
-            //reply(handlePostbackEvent(postbackEvent));
-            postbackController.eventHandle(postbackEvent);
 
         } else if (event instanceof BeaconEvent) {
             final BeaconEvent beaconEvent = (BeaconEvent) event;
-            //reply(handleBeaconEvent(beaconEvent));
+            beaconController.eventHandle(beaconEvent);
         }
     }
 }

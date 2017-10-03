@@ -19,6 +19,16 @@ import java.util.List;
 @Component
 public class MessagingUtil {
 
+    public void replyText(String token, String message) throws Exception {
+
+        TextMessage textMessage = new TextMessage(message);
+        ReplyMessage replyMessage = new ReplyMessage(
+                token,
+                textMessage
+        );
+        reply(replyMessage);
+    }
+
     public void pushText(String destination, String message) throws Exception {
 
         TextMessage textMessage = new TextMessage(message);
